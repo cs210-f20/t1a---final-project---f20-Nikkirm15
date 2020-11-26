@@ -1,0 +1,77 @@
+/** changeMe.c
+* ==============================================================
+* Name: Your Name, Fall 2020
+* Section: 
+* Project: Final Project - name of your project
+* Description: 
+* Documentation Statement: 
+* ==============================================================
+* UserManual/Instructions:
+*   Replace this paragraph with instructions on how to build, run,
+*   and use your program.  If your program has "built-in" instructions
+*   or a tutorial you should say that here and forgo a long description.
+ *
+ *  Bonus Features (upto 10 pts) - List here
+ *  1)
+ *  2)
+ *  3)
+ *
+ *  Required Programming Skills (must have 5 of 6):
+ *   1) Dynamic Memory Allocation
+ *          What you did to meet this req: xxx
+ *              File: (file where example is located)
+ *              Line#: (line in file where it is located)
+ *   2) Pointers
+ *          What you did to meet this req: xxx
+ *              File:
+ *              Line#:
+ *   3) File I/O
+ *          What you did to meet this req: xxx
+ *              File:
+ *              Line#:
+ *   4) Structs
+ *          What you did to meet this req: xxx
+ *              File:
+ *              Line#:
+ *
+ *   5) String Manipulation
+ *          What you did to meet this req: xxx
+ *              File:
+ *              Line#:
+ *
+ *   6) Processing of Array Data
+ *          What you did to meet this req: xxx
+ *              File:
+ *              Line#:
+ *
+ *  Required Advanced Programming Skills (1 or more):
+ *   1) Recursion
+ *          What you did to meet this req: xxx
+ *              File: (file where example is located)
+ *              Line#: (line in file where it is located)
+ *
+ *   2) 2D Dynamic Memory
+ *          What you did to meet this req: xxx
+ *              File:
+ *              Line#:
+ *
+ *   3) Graphics - Curses or Win32
+ *          What you did to meet this req: xxx
+ *              File:
+ *              Line#:
+ *
+ *   List any changes or omissions from stated shall requirements (from
+ *   your design) also describe any functionality that isn't working.
+ *      Requirement changes/omissions:
+ *          1)
+ *          2)
+ *          3)
+ *
+ *      Errors:
+ *          1)
+ *          2)
+ *
+ *   How many hours did you spend on this project: xxx
+ *   How many lines of code did you write in total: xxx
+ *
+*/
