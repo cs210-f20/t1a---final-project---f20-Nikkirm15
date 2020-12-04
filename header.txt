@@ -1,64 +1,64 @@
 /** changeMe.c
 * ==============================================================
-* Name: Your Name, Fall 2020
-* Section: 
-* Project: Final Project - name of your project
-* Description: 
-* Documentation Statement: 
+* Name: Nicolette McDonald, Fall 2020
+* Section: T1/2
+* Project: Final Project - hangman
+* Description: The player tries to guess the word without runnin out of strikes
+* Documentation Statement: Col Nef assisted me in debugging my allocation 
+*  and strike counter during in class lab
 * ==============================================================
 * UserManual/Instructions:
-*   Replace this paragraph with instructions on how to build, run,
-*   and use your program.  If your program has "built-in" instructions
-*   or a tutorial you should say that here and forgo a long description.
+*   Inorder to run the program all you have to do is hit run
+*   and enter a letter when prompted to do so
  *
  *  Bonus Features (upto 10 pts) - List here
- *  1)
+ *  1) NO BONUS FEATURES
  *  2)
  *  3)
  *
  *  Required Programming Skills (must have 5 of 6):
  *   1) Dynamic Memory Allocation
- *          What you did to meet this req: xxx
- *              File: (file where example is located)
- *              Line#: (line in file where it is located)
+ *          What you did to meet this req: 
+ *              File: hangman.c
+ *              Line#: 44
  *   2) Pointers
  *          What you did to meet this req: xxx
- *              File:
- *              Line#:
+ *              File: hangman.c
+ *              Line#: 21,39,94
  *   3) File I/O
  *          What you did to meet this req: xxx
- *              File:
- *              Line#:
+ *              File: hangman.c
+ *              Line#: 22,26
  *   4) Structs
  *          What you did to meet this req: xxx
- *              File:
- *              Line#:
+ *              File: N/A
+ *              Line#: N/A
  *
  *   5) String Manipulation
  *          What you did to meet this req: xxx
- *              File:
- *              Line#:
+ *              File: hangman.c
+ *              Line#: 146
  *
  *   6) Processing of Array Data
  *          What you did to meet this req: xxx
- *              File:
- *              Line#:
+ *              File: hangman.c
+ *              Line#: 145-146
  *
  *  Required Advanced Programming Skills (1 or more):
  *   1) Recursion
  *          What you did to meet this req: xxx
- *              File: (file where example is located)
- *              Line#: (line in file where it is located)
+ *              File: hangman.c
+ *              Line#: 122-133
  *
  *   2) 2D Dynamic Memory
  *          What you did to meet this req: xxx
- *              File:
- *              Line#:
+ *              File: N/A
+ *              Line#: N/A
  *
  *   3) Graphics - Curses or Win32
  *          What you did to meet this req: xxx
- *              File:
- *              Line#:
+ *              File: N/A
+ *              Line#: N/A
  *
  *   List any changes or omissions from stated shall requirements (from
  *   your design) also describe any functionality that isn't working.
@@ -68,10 +68,11 @@
  *          3)
  *
  *      Errors:
- *          1)
+ *          1) My dynamic memory allocation is not working, I talked about it with col Neff but could not figure it out. 
+                My program out time out and exit when i did not have this line commented out.
  *          2)
  *
- *   How many hours did you spend on this project: xxx
- *   How many lines of code did you write in total: xxx
+ *   How many hours did you spend on this project: 5 hours
+ *   How many lines of code did you write in total: 333
  *
 */

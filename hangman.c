@@ -1,6 +1,6 @@
 /** hangman.c
  * ===========================================================
- * Name: Nicolette McDonald, 24 NOV 2020
+ * Name: Nicolette McDonald, 4 DEC 2020
  * Section: T1/T2
  * Project: Final project - hangman
  * ===========================================================
@@ -18,75 +18,16 @@
  * @return random word
  * ----------------------------------------------------------
  */
-char* getWord(fileName){
-    char word[20];
+void getWord(char fileName[], char *word){
     FILE *file = fopen(fileName, "r");
-    srand(time(0));
+    srand(time(0)); //This function is only called once so it is okay to do srand here.
     int rando = rand() % DICTSIZE;
-    printf("rando is %d\n", rando);
-    for(int i = 0 ; i < rando ; i++){
-        fgets(word , sizeof(word) , file);
+    for(int i = 0 ; i < rando ; i++){ //Get random word.
+        fgets(word , 20 , file);
     }
-    printf("%d\n", strlen(word));
-   // word = (char*)malloc(strlen(word)*sizeof(char));
-printf("the word is %s\n", word);
-return word;
+    return word;
 }
 
-void turn( char word[], int strike, int count){
-    if(strike <6 && count < strlen(word)){
-      //turn code  
-    }
-    else {
-       check4end(strike, count);
-    }
-}
-
-void check4end(int strike, int count){
-    if(strike >=6){
-            
-            printf("you lose too many strikes\n");
-        }
-        else{
-            printf("you win you guessed the word\n");
-           
-        }
-}
-/*
-int findLocations(char str[], int locations[], char searchChar){
-    int length = strlen(str);
-    int count = 0;
-    for (int i =0; i<length; ++i){
-        if(str[i] == searchChar){
-            locations[count] = i;
-            count = count +1;
-        }
-        
-        
-    }
-    return count;
-}
-*/
-/** ----------------------------------------------------------
- * findLetter() is used to see if the letter is in the word
- * @param word is the word
- * @param letter is the character to search for
- * @return 1 if the letter is there. 0 if it is not in the word
- * ----------------------------------------------------------
- */
-int findLetter(char word[]){
-   int yes=0;
-   char letter;
-   //printf("the word is %s\n", word);
-   scanf("%c", &letter);
-    for(int i= 0; i< strlen(word); i++){
-        if(word[i] == letter){
-           printf("inloop\n");  
-           yes =1;
-        }
-    }
-    return yes;
-}
 
 /** ----------------------------------------------------------
  * prepGuessWord() is used to creat the blank string that gets
@@ -95,24 +36,154 @@ int findLetter(char word[]){
  * @return string the same length as the word but filled with ?s
  * ----------------------------------------------------------
  */
-char* prepGuessWord(char word[]){
-    printf("string length for word is %d\n", strlen(word));
-    char insert ='?';
-    char guess[30];// = (char*)malloc((strlen(word)+1) * sizeof(char)); //why does it allocate to 3
-   //printf("string length for guess is %d\n", strlen(guess));
-   for(int i = 0; i < strlen(word); i++){
-       guess[i] = insert;
-       // printf("%d\n", i);
+void prepGuessWord(char word[], char *gWord){
+    printf("string length for word is %d\n", strlen(word)-1);
+    for(int i = 0; i < strlen(word)-1; i++){ 
+       gWord[i] = '?'; //fill the gWord with ? marks
     }
-     guess[strlen(word)] = '\0';
-    *guess  = (char*)malloc((strlen(word)+1) * sizeof(char)); //why does it allocate to 3
-    printf("string length for guess is %d\n", strlen(guess));
-   
-    printf("the word to be guessed is %s\n", guess );
-
+    //gWord = (char*)realloc(gWord, strlen(word) * sizeof(char));  Col Neff tried to fgure this out with me but my dynamic memeory allocation messed up the program
+    gWord[strlen(word)-1] = '\0'; // Add null cahrcter at the end.
+    printf("string length for guess is %d\n", strlen(gWord));
+    printf("\n");
+    printf("\n");
+    printf("the word to be guessed is %s\n", gWord );
+    printf("\n");
+    printf("\n");
+}
+/** ----------------------------------------------------------
+ * turn() is the bulk of the game. The user to keep guessing 
+ * letters unitl the word is guessed or the hangman is drawn
+ * @param word is the string of the word to be guessed 
+ * @param gWord is the string of ?s to be filled in as letters
+ * are guessed 
+ * ----------------------------------------------------------
+ */
+void turn( char word[], char gWord[]){
+    int strike  = 0; //wrong guesses
+    int count = 0; //number of appearances for the letter
+    int totCount =0; //total amount of letters guessed correctly
+    int locations[20]; //After every letter fill in we need to reset locations.
+    while(strike <6 && totCount < strlen(word)-1){
+        count = findLetter(word, locations,gWord, strike);
+        if(count == 0){
+            strike = strike +1; //If guess is wrong, add a strike.
+            printHangman(strike);
+            printf("\n WORD : %s\n", gWord);
+        }
+      else{
+            totCount = totCount + count; //Add to the total after each turn.
+      }
+    printf(" strike value is : %d  count value is : %d\n", strike, totCount);
+    printf("---------------------------------------------------------------------\n");
+     
+    }
+    check4end(strike, totCount);
 }
 
 
+/** ----------------------------------------------------------
+ * findLetter() is used to see if the letter is in the word
+ * @param word is the word
+ * @param locations is the integer array of indexs where the 
+ * guessed letter is located in the word
+ * @param gWord is the string of ?s to be filled in as letters
+ * @param strike is the number of wrong guesses
+ * @return # of times the letter appears. 0 if it is not in the word
+ * ----------------------------------------------------------
+ */
+int findLetter(char word[], int *locations, char *gWord,int *strike){
+   int index = 0;
+   char letter;
+   int count;
+   printf("enter a letter to be searched for (must be capital letter)" );
+   scanf(" %c", &letter);
+   printf("\nthe letter to be searched for is %c\n",letter );
+    for(int i= 0; i< strlen(word); i++){
+        if(word[i] == letter){ //Search for the letter in the unknown word.
+            locations[index] = i; // Add the index of each letter appearance to an array.
+            index = index +1; //number of appearances
+        }
+    }
+    count = count_char(word, letter);
+    printf("index is %d and the count from recursion is %d\n", index, count);
+    if(count > 0){
+        changeGword(locations, gWord, letter, count);
+    }
+    return count;
+}
+/** ----------------------------------------------------------
+ * countChar() counts the occurences of a char c in the given
+ * string
+ * @param str is the string to be searched
+ * @param c is the character to be searched for
+ * @return int of the number of occurences of c in the string
+ * ----------------------------------------------------------
+ */
+int count_char(char str[], char c) {
+    if(*str == '\0'){
+        return 0;
+    }
+    else if ( *str == c){
+       return 1+ count_char(str +1, c);
+    }
+    else{
+        return count_char(str +1, c);
+    }
+    
+}
+/** ----------------------------------------------------------
+ * changeGword() fillins in the correctly giessed letters in 
+ * the gWord string
+ * @param locations is the integer array of indexs where the
+ * guessed letter is located in the word
+ * @param gWord is the string of ?s to be filled in as letters
+ * @param letter is the character guessed by the user
+ * @param count is the number of times the letter is in the word
+ * ----------------------------------------------------------
+ */
+void changeGword(int *locations, char *gWord, char letter, int count){ //call this in find letter so you can pass in letter
+    for(int i =0; i<count; i++){
+        gWord[locations[i]] = letter; //Change the ? to the guessed letter.
+    }
+    printf("\n");
+    printf("\n");
+    printf("\nthe new gWord is %s\n", gWord);
+    printf("\n");
+    printf("\n");
+    locations = 'NULL'; //Empty the array for the next letter to be guessed.
+}
+
+
+/** ----------------------------------------------------------
+ * check4end determines if the game is ending becuase the word 
+ * was guessed or the hangman was complete
+ * @param strike is the number of wrong guesses
+ * @param count is the number of correct guesses
+ * ----------------------------------------------------------
+ */
+void check4end(int strike, int count){
+    if(strike >=6){
+            printf("\n");
+            printf("\n");
+            printf("++++++++++++++++++++++++++++\n");
+            printf("+                          +\n");
+            printf("+   too many strikes!!     +\n");
+            printf("+     GAME OVER!!!!        +\n");
+            printf("+                          +\n");
+            printf("++++++++++++++++++++++++++++\n");
+        }
+        else{
+            printf("\n");
+            printf("\n");
+            printf("++++++++++++++++++++++++++++\n");
+            printf("+                          +\n");
+            printf("+  you guessed the word!!  +\n");
+            printf("+       YOU WIN!!!!!!!!    +\n");
+            printf("+                          +\n");
+            printf("++++++++++++++++++++++++++++\n");
+           
+        }
+}
 
 
 
@@ -127,7 +198,9 @@ void printHangman(int strikes){
 switch (strikes)
 {
 case 0:
+    
     printf("\n");
+    printf("strikes: %d\n", strikes);
     printf(" |------|\n");
     printf(" |      |\n");
     printf(" |\n");
@@ -136,7 +209,9 @@ case 0:
     printf(" ----------\n");
     break;
 case 1:
+
  printf("\n");
+    printf("strikes: %d\n", strikes);
     printf(" |------|\n");
     printf(" |      |\n");
     printf(" |      O\n");
@@ -146,6 +221,7 @@ case 1:
     break;
 case 2:
     printf("\n");
+    printf("strikes: %d\n", strikes);
     printf(" |------|\n");
     printf(" |      |\n");
     printf(" |      O\n");
@@ -155,6 +231,7 @@ case 2:
     break;
 case 3:
     printf("\n");
+    printf("strikes: %d\n", strikes);
     printf(" |------|\n");
     printf(" |      |\n");
     printf(" |      O\n");
@@ -164,6 +241,7 @@ case 3:
     break;
 case 4:
     printf("\n");
+    printf("strikes: %d\n", strikes);
     printf(" |------|\n");
     printf(" |      |\n");
     printf(" |      O\n");
@@ -173,6 +251,7 @@ case 4:
     break;
 case 5:
     printf("\n");
+    printf("strikes: %d\n", strikes);
     printf(" |------|\n");
     printf(" |      |\n");
     printf(" |      O\n");
@@ -182,6 +261,7 @@ case 5:
     break;
 default:
     printf("\n");
+    printf("strikes: %d\n", strikes);
     printf(" |------|\n");
     printf(" |      |\n");
     printf(" |      O\n");
@@ -192,71 +272,3 @@ default:
     break;
 }
 }
-//strike =0
- /* |------|
-    |      |
-    |
-    |
-    |
-   ----------
-  */
- //strike 1
- /* |------|
-    |      |
-    |      O
-    |
-    |
-   ----------
-  */
-//strike 2
- /* |------|
-    |      |
-    |      O
-    |      |
-    |
-   ----------
-  */
- //strike 3
- /* |------|
-    |      |
-    |      O
-    |      |
-    |     /
-   ----------
-  */
- //strike 4
- /* |------|
-    |      |
-    |      O
-    |      |
-    |     / \
-   ----------
-  */
- //strike 5
- /* |------|
-    |      |
-    |      O
-    |    --|
-    |     / \
-   ----------
-  */
- //strike 6
- /* |------|
-    |      |
-    |      O
-    |    --|--
-    |     / \
-   ----------
-  */
-
-/*
-void replStr(char str[], char aChar, char bChar){
-    //char* index;
-    int len = strlen(str);
-    for(int i =0; i < len; ++i){
-        if(str[i] == aChar){
-            str[i] = bChar;
-        }
-    }
-}
-*/
